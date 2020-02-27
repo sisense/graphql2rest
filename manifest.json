@@ -1,0 +1,29 @@
+{
+	"errors": {
+		"errorCodes": {
+			"UNAUTHORIZED_ERROR": {
+				"httpCode": 401,
+				"errorDescription": "Unauthorized"
+			}
+		}
+	},
+
+	"endpoints": {
+		"/users": {
+			"get": {
+				"operation": "getUser"
+			}
+		},
+
+		"/users/:id": {
+			"post": {
+				"operation": "createNewUser",
+				"params": {
+					"userOid": "id"
+				},
+				"successStatusCode": 201,
+				"hide": ["internalSecret"]
+			}
+		}
+	}
+}

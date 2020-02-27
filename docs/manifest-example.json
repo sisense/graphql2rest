@@ -1,0 +1,46 @@
+{
+	"endpoints": {
+
+		"/users": {
+			"get": {
+				"operation": "listAllUsers"
+			},
+
+			"post": {
+				"operation": "createUser",
+				"wrapRequestBodyWith": "userData",
+				"successStatusCode": 201
+			}
+		},
+
+
+		"/users/:userId": {
+			"get": {
+				"operation": "getUser"
+			},
+
+			"patch": {
+				"operation": "updateUser",
+				"params": {
+					"id": "userId"
+				},
+				"wrapRequestBodyWith": "userData"
+			},
+
+			"delete": {
+				"operation": "removeUser",
+				"successStatusCode": 204
+			}
+		}
+	},
+
+
+	"errors": {
+		"errorCodes": {
+			"UNAUTHORIZED_ERROR": {
+				"httpCode": 401,
+				"errorDescription": "Unauthorized"
+			}
+		}
+	}
+}

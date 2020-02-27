@@ -1,0 +1,144 @@
+{
+	"endpoints": {
+		"/api/tweets/:id": {
+			"get": {
+				"operation": "Tweet"
+			},
+			"delete": {
+				"operation": "deleteTweet",
+				"successStatusCode": 204
+			},
+			"patch": {
+				"operation": "updateTweet",
+				"params": {
+					"tweetId": "id"
+				},
+				"hide": ["oid", "active"]
+			}
+		},
+		"/api/tweets": {
+			"post": {
+				"operation": "createTweet",
+				"params": {
+					"tweetBody": "text"
+				},
+				"successStatusCode": 201
+			},
+			"put": {
+				"operation": "Tweets",
+				"params": {
+					"deleteMe1": "__DELETED__",
+					"deleteMe2": "__DELETED__",
+					"nested.delete.me": "__DELETED__",
+					"array.of.objs.deleted": "__DELETED__",
+					"array.of.nonexistent": "__DELETED__",
+					"tweetBody": "text"
+				},
+				"successStatusCode": 204
+			}
+		},
+
+		"/api/relationships/:first/:second": {
+			"post": {
+				"operation": "createTweetRelationship",
+				"params": {
+					"tweetId1": "first",
+					"tweetId2": "second"
+				},
+				"successStatusCode": 201,
+				"wrapRequestBodyWith": "relationship"
+			},
+			"patch": {
+				"operation": "updateTweetRelationship",
+				"params": {
+					"tweetId1": "first",
+					"tweetId2": "second"
+				},
+				"wrapRequestBodyWith": "updateData.vars.relationship"
+			}
+		},
+
+		"/api/no-endpoint-should-be-created-here": {
+			"patch": {
+				"operation": "nonExistentOperation",
+				"params": {
+					"fakeParam": "operationIsNotInSchema"
+				}
+			}
+		},
+
+		"/api/users": {
+			"get": {
+				"operation": "Users"
+			}
+		},
+
+		"/api/notifications": {
+			"get": {
+				"operations": [
+					{
+						"operation": "NotificationsLegacy",
+						"condition": {
+							"myquery": {
+								"$exists": true
+							}
+						}
+
+					},
+					{
+						"operation": "Notifications",
+						"condition": {
+							"myquery": {
+								"$exists": false
+							}
+						}
+					}
+				]
+			},
+
+			"post": {
+				"successStatusCode": 201,
+				"operations": [
+					{
+						"operation": "preprocessNotificationsForUser",
+						"condition": {
+							"command": {
+								"$exists": false
+							},
+							"wrapRequestBodyWith": "wrapper.data"
+						}
+					},
+					{
+						"operation": "createNotificationLegacy",
+						"params": {
+							"notification": "__DELETED__"
+						},
+						"condition": {
+							"command": {
+								"$exists": true
+							}
+						},
+						"wrapRequestBodyWith": "wrapper.data"
+					}
+				]
+			}
+		},
+
+
+
+		"/api/bad-endpoint": {
+			"invalidVerb": {
+				"operations": "NotificationsMeta"
+			}
+		}
+	},
+	"errors": {
+		"errorCodes": {
+			"4003": {
+				"httpCode": 403,
+				"errorDescription": "User is unauthorized. Please use a correct Bearer token."
+
+			}
+		}
+	}
+}
