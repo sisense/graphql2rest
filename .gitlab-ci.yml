@@ -1,0 +1,54 @@
+image: node:8.15.1
+
+variables:
+  GIT_SSL_NO_VERIFY: "true"
+
+cache:
+  untracked: true
+  key: "$CI_BUILD_REF_NAME"
+  paths:
+    - node_modules/
+
+stages:
+  - setup
+  - checks
+  - pages
+
+setup:
+  stage: setup
+  script:
+    - npm install yarn
+    - yarn install
+
+test:
+  stage: checks
+  script:
+    - yarn test:coverage
+
+pages:
+  stage: pages
+  script:
+  - cp -r ./coverage/lcov-report/. public/
+  artifacts:
+    paths:
+    - public
+  only:
+    - /^release.*/
+    - master
+
+whitesource:
+  stage: checks
+  image: docker.artifactory.sisense.com/whitesource-ci
+  artifacts:
+    when: always
+    paths:
+      - whitesource
+  before_script:
+    - rm -f wss-unified-agent.jar
+    - curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar
+  script:
+    - java -jar wss-unified-agent.jar -c .whitesource/wss-unified-agent.config
+  only:
+    - /^os.*/
+  tags:
+    - build-nodejs

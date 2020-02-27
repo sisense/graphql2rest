@@ -1,0 +1,9 @@
+{
+    "apiPrefix": "/api/v3",
+    "gqlGeneratorOutputFolder": "../gql-output/",
+    "manifestMode": true,
+    "manifestFile": "../manifest.json",
+    "gqlSchemaFile": "",
+    "filterFieldName": "fields",
+    "graphqlErrorCodeObjPath": "errors[0].extensions.code"
+}

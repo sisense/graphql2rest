@@ -1,0 +1,46 @@
+# General
+.DS_Store
+
+# Dependency directories
+node_modules
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Ignore IDE configuration files
+.idea/
+.vscode/
+vscode-debug-nodejs-es6/
+.editorconfig
+
+# Ignore npm internal configuration files
+.npmrc
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Whitesource files
+.whitesource
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+telepresence.log
+
+# Graphql2Rest output files
+gql-output/
+src/wip/
+
+# Yarn Integrity file
+.yarn-integrity
+
+### Windows template
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini

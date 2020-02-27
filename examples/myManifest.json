@@ -1,0 +1,17 @@
+{
+    "endpoints": {
+
+        "/tweets/:id": {
+            "get": {
+                "operation": "getTweet"
+            }
+        },
+
+        "/tweets": {
+            "post": {
+                "operation": "createTweet",
+                "successStatusCode": 201
+            }
+        }
+    }
+}
