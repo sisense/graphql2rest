@@ -1,7 +1,7 @@
 
 ## Hiding fields in REST responses
 
-A common use case is where a GraphQL API is used internally, then GraphQL2REST is used to expose a public REST API based on it. In such case we may want to hide certain fields in the GraphQL response from users of the external REST API.
+A common use case is where a GraphQL API is used internally, then GraphQL2REST is used to expose a public REST API based on it. In this case we may want to hide certain fields in the GraphQL response from users of the external REST API.
 
 To hide fields, use the `hide` property in the `endpoints` section of the manifest file. `hide` is an array of fields to filter out of the response. For nested fields, use dot notation ("parent.child1.child2").
 

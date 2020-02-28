@@ -1,9 +1,7 @@
 
 /* On a separate project / home folder, first run:
-npm i graphql2rest
-npm i graphql
-npm i express
-npm i body-parser
+
+npm i graphql2rest graphql express body-parser graphql2rest
 
 Then:
 

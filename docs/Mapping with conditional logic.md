@@ -1,12 +1,12 @@
 ## Mapping to GraphQL operations using conditional logic
 
-GraphQL2REST allows using conditional logic clauses **on the request parameters** to determine whether a GraphQL operation mapped to a REST API route should be invoked. 
+GraphQL2REST allows you to use conditional logic clauses **on the request parameters** to determine whether a GraphQL operation mapped to a REST API route should be invoked. 
 
 The condition is tested on the aggregate of all request parameters (path, query and body), and is expressed using [MongoDB query language](https://docs.mongodb.com/manual/reference/operator/query/) query operators. 
 
 In the most common use case, we would like to map a single REST endpoint to two (or more) GraphQL operations but only invoke one of them based on the value or existence of a parameter (or field) in the payload. 
 
-To create such a decision tree, we use an array of operations instead of one `operation` field in the `endpoints` section of the manifest.  
+To create such a decision tree, use an array of operations instead of one `operation` field in the `endpoints` section of the manifest.  
 <br>
 
 

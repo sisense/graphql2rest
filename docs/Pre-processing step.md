@@ -1,6 +1,6 @@
 ## Pre-processing step
 
-First, GraphQL2REST needs to do some one-time preprocessing. It reads your GraphQL schema and generates .gql files containing all client operations (queries and mutations). These are "fully-exploded" GraphQL client queries which expand all fields in all nesting levels and all possible variables, per each Query or Mutation type.
+First, GraphQL2REST needs to do some one-time preprocessing. It reads your GraphQL schema and generates .gql files containing all client operations (queries and mutations). These are "fully-exploded" GraphQL client queries that expand all fields in all nesting levels and all possible variables, per each Query or Mutation type.
 
 This is achieved by running the *generateGqlQueryFiles()* function:
 ```js

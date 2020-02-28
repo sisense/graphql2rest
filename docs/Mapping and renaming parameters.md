@@ -1,7 +1,7 @@
 ## Mapping and renaming parameters
 By default, parameters are passed as is from the REST request to the GraphQL operation (parameter names are matched).
 
-However, sometimes we we want to use different parameter names in the REST API than in the GraphQL operation.
+However, sometimes we want to use different parameter names in the REST API than in the GraphQL operation.
 
 The `params` property (object) in the `endpoints` section of the manifest allows renaming parameter names. The format is *"GraphQL-param-name"***:** *"REST-param-name"*.
 

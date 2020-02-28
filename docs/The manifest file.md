@@ -85,11 +85,11 @@ Each  REST API route entry is an object, with HTTP methods as its keys: `get`, `
 
 The HTTP method key is an object, with properties defining the behavior of this specific HTTP route. The only mandatory property (field) is the "operation" key, which pertains to the GraphQL operation (query or mutation) to invoke.
 
-While we want our final API routes to look like "`/api/users/`", in the manifest we omitted the `"/api"` prefix, because we can add it later globally in the init() function's `options` object. This is useful when customizing or versioning the API (adding `/api/v1`, `/api/v2`) while keeping the same route structure.
+While we want our final API routes to look like "`/api/users/`", in the manifest we omitted the `"/api"` prefix, because it can be added later globally in the init() function's `options` object. This is useful when customizing or versioning the API (adding `/api/v1`, `/api/v2`) while keeping the same route structure.
 
 ### Detailed explanation of the manifest file above:
 >#### GET /users
-Here we defined a GET /users HTTP route, which is mapped to the "listAllUsers" GraphQL query. Whenever GET /users is requested, listAllUsers() will be invoked and its response will be returned as the REST API response. Since there is no "successStatusCode" field for this API path, it will return 200 OK by default if the operation completes successfully.
+Here we defined a GET /users HTTP route, which is mapped to the "listAllUsers" GraphQL query. Whenever GET /users is requested, listAllUsers() will be invoked and its response will be returned as the REST API response. As there is no "successStatusCode" field for this API path, it will return 200 OK by default if the operation completes successfully.
 
 ```
 "/users": {
@@ -98,7 +98,7 @@ Here we defined a GET /users HTTP route, which is mapped to the "listAllUsers" G
 	}
 ```
 
-**"Completes successfully"** is defined by us as a GraphQL response with a "data" object which includes at least one non-null field. The response may or may not have an "errors[]" array. If it it does have non-empty "data" and "errors" array, the "errors" array will be omitted from the REST response. By default, successful responses are formatted to look like standard REST responses (flat JSON object or array, with no extra 'errors' array), but that formatting can be customized in GraphQL2REST.
+**"Completes successfully"** is defined by us as a GraphQL response with a "data" object that includes at least one non-null field. The response may or may not have an "errors[]" array. If it it does have non-empty "data" and "errors" array, the "errors" array will be omitted from the REST response. By default, successful responses are formatted to look like standard REST responses (flat JSON object or array, with no extra 'errors' array), but that formatting can be customized in GraphQL2REST.
 
 If the response received from GraphQL server has no "data" object (or the "data" object only include "null"-valued fields), the response is deemed to be an error response (did not complete successfully) and an error HTTP status code will be returned by the REST router along with the error message response. The format of the error response from GraphQL can be customized in GraphQL2REST.
 

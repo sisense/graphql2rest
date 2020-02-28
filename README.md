@@ -12,7 +12,7 @@ GraphQL2REST is a Node.js library that reads your GraphQL schema and a user-prov
 
 - You want to benefit from GraphQL internally while exposing REST externally as a public API
 
-**GraphQL2REST allows fully configuring and customizing your REST API, which may sit on top of a very different GraphQL layer (see [*features*](#features)).**
+**GraphQL2REST allows you to fully configure and customize your REST API, which may sit on top of a very different GraphQL layer (see [*features*](#features)).**
 
 
 
@@ -87,10 +87,10 @@ DELETE /api/users/{userId}   --> 202 ACCEPTED
 
 // Example:
 
-GET /api/users/1234?x-filter=name,role
+GET /api/users/1234?fields=name,role
 
 Will invoke getUser query and return only 'name' and 'role' fields in the REST response.
-(the name of the filter query param is customizable).
+The name of the filter query param ("fields" here) can be changed.
 
 ```
 _For more examples and usage, please refer to the [Tutorial](#tutorial)._
@@ -102,7 +102,7 @@ _For more examples and usage, please refer to the [Tutorial](#tutorial)._
  - Customize response format (and error responses format too, separately)
  - Custom parameter mapping (REST params can be different than GraphQL parameter names)
  - Customize success status codes for each REST endpoint
- - Map custom Apollo GraphQL error codes to HTTP response status codes
+ - Map custom GraphQL error codes to HTTP response status codes
  - Map a single REST endpoint to multiple GraphQL operations, with conditional logic to determine mapping
  - Hide specific fields from responses
  - Run custom middleware function on incoming requests before they are sent to GraphQL
@@ -134,7 +134,7 @@ After _generateGqlQueryFiles()_ has been executed once,  GraphQL2REST ***init()*
 
 ----
 ### The *init()* function
-GraphQL2REST.*init()* is the entry point which creates REST routes at runtime.
+GraphQL2REST.*init()* is the entry point that creates REST routes at runtime.
 
 It only takes two mandatory parameters: your GraphQL **schema** and the GraphQL server ***execute function*** (whatever your specific GraphQL server implementation provides, or an Apollo Link function).
 
@@ -152,7 +152,7 @@ GraphQL2REST.init(
 
 `formatErrorFn` is an optional function to custom format GraphQL error responses.
 
-`formatDataFn` is an optional function to custom format non-errror GraphQL responses (data). If not provided, default behavior is to strip the encapsulating `'data:'` property and omit the `'errors'` array from successful responses.
+`formatDataFn` is an optional function to custom format non-error GraphQL responses (data). If not provided, default behavior is to strip the encapsulating `'data:'` property and omit the `'errors'` array from successful responses.
 
 `expressRouter` is an express.Router() instance to attach new routes to (if not provided, a new Express instance will be returned) .
 
@@ -172,21 +172,21 @@ The `endpoints` object lists the REST endpoints to generate:
 ```
 Route path, HTTP method and operation name are mandatory.
 
-GraphQL2REST allows mapping a single REST endpoint to multiple GraphQL operations by using [an array of operations](docs/Mapping%20with%20conditional%20logic.md) (`operations[]` array instead of the `operation` field).
+GraphQL2REST lets you map a single REST endpoint to multiple GraphQL operations by using [an array of operations](docs/Mapping%20with%20conditional%20logic.md) (`operations[]` array instead of the `operation` field).
 
 **Additional optional fields:**
 
- -  "`params`": Used to map parameters in the REST request to GraphQL arguments in the corresponding query or mutation. Allows renaming parameters so the REST API can use different naming than the underlying GraphQL layer. If omitted, parameters will be passed as is by default. [[Learn more]](docs/Mapping%20and%20renaming%20parameters.md)
+ -  "`params`": Used to map parameters in the REST request to GraphQL arguments in the corresponding query or mutation. Lets you rename parameters so the REST API can use different naming than the underlying GraphQL layer. If omitted, parameters will be passed as is by default. [[Learn more]](docs/Mapping%20and%20renaming%20parameters.md)
 
- -  "`successStatusCode`": Success status code. If omitted, success status code will be 200 OK by default.  [[Learn more]](docs/Success%20and%20error%20status%20codes.md)
+ -  "`successStatusCode`": Success status code. If omitted, success status code is 200 OK by default.  [[Learn more]](docs/Success%20and%20error%20status%20codes.md)
 
  -  "`condition`": Conditions on the request parameters. GraphQL operation will be invoked only if the condition is satisfied. Condition is expressed using [MongoDB query language](https://docs.mongodb.com/manual/reference/operator/query/) query operators. [[Learn more]](docs/Mapping%20with%20conditional%20logic.md)
 
  -  "`hide`": Array of fields in response to hide. These fields in the GraphQL response will always be filtered out in the REST response. [[Learn more]](docs/Hiding%20fields%20in%20REST%20responses.md)
 
- -  "`wrapRequestBodyWith`": Wrap the request body with this property (or multiple nested objects expressed in dot notation) before passing the REST request to GraphQL. Allows mapping the entire HTTP body to a specific GraphQL Input argument. Helpful when we want the REST body to be flat, but the GraphQL operation expects the input to be wrapped within an object.
+ -  "`wrapRequestBodyWith`": Wrap the request body with this property (or multiple nested objects expressed in dot notation) before passing the REST request to GraphQL. Lets you map the entire HTTP body to a specific GraphQL Input argument. Helpful when we want the REST body to be flat, but the GraphQL operation expects the input to be wrapped within an object. [[Learn more]](docs/Wrap%20request%20body.md)
 
- -  "`requestMiddlewareFunction`": Name of a middleware function (in the `middleware.js` module) to call before passing the request to the GraphQL server. This function receives the *express* `req` object and returns a modified version of it.
+ -  "`requestMiddlewareFunction`": Name of a middleware function (in the `middleware.js` module) to call before passing the request to the GraphQL server. This function receives the *express* `req` object and returns a modified version of it. [[Learn more]](docs/Middleware%20functions.md)
  </br>
 
  #### Another example:
@@ -216,7 +216,7 @@ GraphQL2REST allows mapping a single REST endpoint to multiple GraphQL operation
 
 
 ### The `errors` section
-The optional “`errors`” object allows mapping [GraphQL error codes](https://www.apollographql.com/docs/apollo-server/data/errors/#codes) to HTTP status codes, and adding an optional additional error message.  The first error element in GraphQL's `errors` array is used for this mapping.
+The optional “`errors`” object lets you map [GraphQL error codes](https://www.apollographql.com/docs/apollo-server/data/errors/#codes) to HTTP status codes, and add an optional additional error message.  The first error element in GraphQL's `errors` array is used for this mapping.
 
 #### Example:
 ```js
@@ -229,14 +229,14 @@ The optional “`errors`” object allows mapping [GraphQL error codes](https://
 	}
 }
 ```
-In this example, responses from GraphQL which have an `errors[0].extension.code` field with the value `"UNAUTHENTICATED"` will produce a *401 Unauthorized* HTTP status code, and the error description string above will be included in the JSON response sent by the REST router.
+In this example, responses from GraphQL that have an `errors[0].extension.code` field with the value `"UNAUTHENTICATED"` produce a *401 Unauthorized* HTTP status code, and the error description string above is included in the JSON response sent by the REST router.
 
 
-For GraphQL error codes that have no mappings (or if the "errors" object is missing from manifest.json), a *400 Bad Request* HTTP status code will be returned by default for client errors, and a *500 Internal Server Error* will be returned for errors in the server or uncaught exceptions.
+For GraphQL error codes that have no mappings (or if the "errors" object is missing from manifest.json), a *400 Bad Request* HTTP status code is returned by default for client errors, and a *500 Internal Server Error* is returned for errors in the server or uncaught exceptions.
 
 
 ## Configuration
-Settings can be configured in the **`options`** object provided to init(). For any fields not specified in the *options* object, or if *options* is not provided to init(), values from the *defaults.json* file will be used.
+Settings can be configured in the **`options`** object provided to init(). For any fields not specified in the *options* object, or if *options* is not provided to init(), values from the *defaults.json* file are used.
 
 ```js
 const gql2restOptions  = {
@@ -266,12 +266,12 @@ All fields in `options` are optional, but init() will not be able to run without
 	 - [Success and error HTTP status codes](docs/Success%20and%20error%20status%20codes.md)
 	 - [Hiding fields in REST responses](docs/Hiding%20fields%20in%20REST%20responses.md)
 	 - [Mapping to GraphQL operations using conditional logic](docs/Mapping%20with%20conditional%20logic.md)
+	 -  [Using request middleware functions](docs/Middleware%20functions.md)
  - [Pre-processing step](docs/Pre-processing%20step.md)
  - [Generating the REST API with init()](docs/Generating%20REST%20API%20with%20init.md)
- - Using request middleware functions
- - Filtering and shaping the responses on the client side
- - Customizing and formatting response format
- - Using apollo-link to work with a remote GraphQL server
+ - [Filtering and shaping the responses on the client side](docs/Client%20filters.md)
+ - [Customizing and formatting response format](docs/Formatting%20responses.md)
+ - [Using apollo-link to work with a remote GraphQL server](docs/Using%20remote%20GraphQL%20server.md)
 
 
 ## Running tests
@@ -285,9 +285,9 @@ npm run test:coverage
 ```
 ## Benefits
 
- - GraphQL2REST allows creating a truly RESTful API that might be very different than the original, unchanged GraphQL API, without writing a single line of code.
+ - GraphQL2REST lets you create a truly RESTful API that might be very different than the original, unchanged GraphQL API, without writing a single line of code.
 
- - The resulting REST API enjoys the built-in data validation provided by GraphQL due to its strong type system. Executing a REST API call with missing or incorrect parameters will automatically result in an informative error provided by GraphQL (which can be custom formatted to look like REST).
+ - The resulting REST API enjoys the built-in data validation provided by GraphQL due to its strong type system. Executing a REST API call with missing or incorrect parameters automatically results in an informative error provided by GraphQL (which can be custom formatted to look like REST).
 
  - An old REST API can be migrated to a new GraphQL API gradually, by first building the GraphQL API and using GraphQL2REST to generate a REST API on top of it, seamlessly. That new REST API will have the same interface as the old one, and the new implementation can then be tested, endpoints migrated in stages, until a full migration to the underlying GraphQL API takes place.
 
@@ -301,7 +301,7 @@ npm run test:coverage
  - The pre-processing step of this library is  based on [timqian/gql-generator](https://www.npmjs.com/package/gql-generator).
 
 ## Contact
-For inquiries contact roy.mor@sisense.com.
+For inquiries contact author Roy Mor (roy.mor@sisense.com).
 
 ## Release History
 
@@ -315,12 +315,12 @@ For inquiries contact roy.mor@sisense.com.
 See [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 <!-- Markdown link & img dfn's -->
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/datadog-metrics
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[wiki]: https://github.com/yourname/yourproject/wiki
+[npm-image]: https://img.shields.io/npm/v/graphql2rest.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/graphql2rest
+[npm-downloads]: https://img.shields.io/npm/dm/graphql2rest.svg?style=flat-square
+[travis-image]: https://img.shields.io/travis/sisense/graphql2rest/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/sisense/graphql2rest
+[wiki]: https://github.com/sisense/graphql2rest/wiki
 
 ## License
 Distributed under MIT License. See `LICENSE` for more information.

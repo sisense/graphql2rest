@@ -1,7 +1,7 @@
 {
 	"name": "graphql2rest",
-	"version": "0.5.0",
-	"author": "Roy Mor",
+	"version": "0.5.1",
+	"author": "Roy Mor <roy.mor@sisense.com>",
 	"contributors": [
 		"Ray Luxembourg",
 		"Yotam Roth"
@@ -15,6 +15,10 @@
 		"graphql2rest",
 		"restful"
 	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/sisense/graphql2rest.git"
+	},
 	"main": "./src/index.js",
 	"private": false,
 	"scripts": {

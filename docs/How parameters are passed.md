@@ -1,5 +1,5 @@
 ## How parameters are passed
-Parameters in a REST HTTP request can be passed in the route (path parameters), in the body or as query parameters. 
+Parameters in a REST HTTP request can be passed in the route (path parameters), in the body, or as query parameters. 
 
 By default, GraphQL2REST aggregates all REST request parameters and passes them as is to the corresponding GraphQL query, trying to match the argument names defined in the GraphQL operation.
 
