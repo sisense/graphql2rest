@@ -15,6 +15,12 @@ Next, edit the manifest file.
 ## Working Example
 *This code example can be found in the /examples folder*.
 
+
+The following example shows how a simple dummy GraphQL API schema can be quickly mapped to a new REST API listening to incoming HTTP requests:
+
+<br>
+
+
 Create a file `myManifest.json` in your source home folder: 
 ```json
 {
@@ -86,12 +92,12 @@ const resolvers = {
 
 const schema = graphql.buildSchema(schemaStr); // Creates a GraphQLSchema object from our schemaStr string 
 
-// The GraphQL2REST execute function receives { query, variables, context, operationName } parameters, 
+// The GraphQL2REST execute function accepts { query, variables, context, operationName } parameters, 
 // so it can be used as is with Apollo Link and other compatible GraphQL interfaces/servers.
 // 
-// For graphql-js used here which uses different arguments, we need to wrap graphql's execute() function with 
+// For graphql-js used here, which uses different arguments, we need to wrap graphql's execute() function with 
 // our GraphQL2REST execute function and map to its corresponding fields. 
-const executeFn = ({ query, variables, context}) => {
+const executeFn = ({ query, variables, context }) => {
     return graphql.execute({
         schema,
         document: query,
@@ -101,11 +107,12 @@ const executeFn = ({ query, variables, context}) => {
     });
 }
 
-// Always use path.resolve() to force absolute paths 
+// Always use path.resolve() to force absolute paths
 const GQL_FOLDER = path.resolve(__dirname, './myGqlFiles'); // root folder where .gql files will be created
 const MANIFEST_FILE = path.resolve(__dirname, './myManifest.json'); // pathname for our GraphQL2REST manifest file
 
-GraphQL2REST.generateGqlQueryFiles(schema, GQL_FOLDER); // this can be performed just once (unless the schema changes)
+// this can be performed just once (unless the schema changes):
+GraphQL2REST.generateGqlQueryFiles(schema, GQL_FOLDER); 
 
 const restAPI = GraphQL2REST.init(schema, executeFn, {
     apiPrefix: '/v1',
@@ -177,7 +184,7 @@ Let's test our POST endpoint:
 ```sh
 $ curl -X POST http://localhost:4000/api/v1/tweets -H 'content-type: application/json' -d '{"body": "Testing Tweets!"}'
 
-{ "id": "100", "body": "Testing Tweets!" } [201 CREATED]
+{ "id": "100", "body": "Testing Tweets!" } [201 Created]
 ```
 <br>
 
@@ -195,10 +202,14 @@ $ curl -X POST http://localhost:4000/api/v1/tweets -H 'content-type: application
     ]
 } 
 
-[400 BAD REQUEST]
+[400 Bad Request]
 ```
 
 (The error response can be customized and formatted by providing init() with your own errorFormatFn).
+
+<br>
+
+Read more to see how a customized REST API can be generated on top of an existing GraphQL API.
 
 <br><br>
 **Next**:  read about [the manifest file](The%20manifest%20file.md) or jump to [the pre-processing step](Pre-processing%20step.md).

@@ -1,6 +1,6 @@
 {
 	"name": "graphql2rest",
-	"version": "0.5.1",
+	"version": "0.6.0",
 	"author": "Roy Mor <roy.mor@sisense.com>",
 	"contributors": [
 		"Ray Luxembourg",

@@ -101,5 +101,4 @@ This way we are able to keep our API fully RESTful where we have a single endpoi
 
 <br>
 
-Next: [the pre-processing step](Pre-processing%20step.md).
-
+Next: read about [using middleware functions on the request](Middleware%20functions.md) or jump to [the pre-processing step](Pre-processing%20step.md).
