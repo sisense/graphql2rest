@@ -34,6 +34,8 @@ POST /configurations/61728?count=2
 The resulting GraphQL call is:
  `makeConfiguration(configId: 61728, confCount: 2, configData: ["data1", "data2"])`.
 
+To further customize how parameters are passed to the GraphQL operation, you can use a [request middleware function.](Middleware%20functions.md)
+
 ### Omitting REST parameters
 Sometimes we want to omit ceratin parameters (fields) passed in the REST request, so that they are not passed to the corresponding GraphQL operation. This can be handy if we need the corresponding GraphQL operation to ignore some parameters (because the GraphQL operation signature does not have those arguments sent in by REST, and would otherwise fail).
 

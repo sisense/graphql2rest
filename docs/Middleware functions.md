@@ -23,13 +23,14 @@ Then add your middleware function to `middlewares.js`.
 
 <br>
 
-Middleware functions accept `(req, route, verb, operation)` and are expected to return the Express request object modified by the function.
+Middleware functions accept `(req, route, verb, operation)` and should return the Express request object modified by the function.
 
  - `req` is the Express request object 
  - `route` is the REST endpoint route 
- -  `verb` is the HTTP method 
- -  `operation` is the GraphQL  operation name
+ - `verb` is the HTTP method 
+ - `operation` is the GraphQL operation name
 
+`route`, `verb` and `operation` are read-only and should not be modified.
  
 Example:
 ```js
@@ -40,6 +41,11 @@ const someMiddlewareFunc = (req, route, verb, operation) => {
     return req;
 }
 ```
+(The GraphQL operation will get argument `newParam` which is an object `{ obj: val }`.)
+
+<br>
+
+
 Next, edit the entry for the endpoint you want add middleware to, in the manifest file:
 
 ```json
