@@ -14,6 +14,7 @@ GET /flights?fields=destination.city,time
 Applies the filter on `"destination.city"` (nested field) and `"time"` field in the response, and will result in a JSON response containing only those fields. 
 
 Note: The built-in filter parameter `"fields"` can also be passed in the body of the request.
+
 <br>
 
 The built-in filter parameter can be applied on JSON responses which are arrays of objects too.
@@ -72,6 +73,9 @@ And the resulting response from the REST API will be:
     }
 ]
 ```
+
+<br>
+
 ### Changing the name of the built-in filter parameter
 
 The name of the filter parameter can be set in `options` object when calling *init()*. For example, here we change it to "x-filter":
@@ -85,6 +89,9 @@ const expressRouter = GraphQL2REST.init(schema, execute, gql2restOptions);
 
 // GET /flights?x-filter=destination.city,time 
 ```
+
+<br>
+
 
 ## Using JMESPath filters
 
@@ -111,6 +118,7 @@ Note: *The name of the "fields" parameter can be changed.
 As before, a filter parameter with JMESPath expression can also be passed in the body of the request.*
 
 <br>
+
 
 #### Example
 Given the previous JSON request and response: 
