@@ -1,7 +1,9 @@
 
 /* On a separate project / home folder, first run:
 
-npm i graphql2rest graphql express body-parser graphql2rest
+npm i graphql express body-parser graphql2rest
+
+Make sure myManifest.json and index.js (this file) are copied to the project's folder. 
 
 Then:
 
@@ -56,9 +58,9 @@ const schema = graphql.buildSchema(schemaStr); // Creates a GraphQLSchema object
 // The GraphQL2REST execute function receives { query, variables, context, operationName } parameters,
 // so it can be used as is with Apollo Link and other compatible GraphQL interfaces/servers.
 //
-// For graphql-js used here which uses different arguments, we need to wrap graphql's execute() function with
+// For graphql-js used here, that uses different arguments, we need to wrap graphql's execute() function with
 // our GraphQL2REST execute function and map to its corresponding fields.
-const executeFn = ({ query, variables, context}) => {
+const executeFn = ({ query, variables, context }) => {
     return graphql.execute({
         schema,
         document: query,
@@ -72,8 +74,8 @@ const executeFn = ({ query, variables, context}) => {
 const GQL_FOLDER = path.resolve(__dirname, './myGqlFiles'); // root folder where .gql files will be created
 const MANIFEST_FILE = path.resolve(__dirname, './myManifest.json'); // pathname for our GraphQL2REST manifest file
 
-
-GraphQL2REST.generateGqlQueryFiles(schema, GQL_FOLDER); // this can be performed just once (unless the schema changes)
+// this pre-process step can be performed just once (unless the schema changes):
+GraphQL2REST.generateGqlQueryFiles(schema, GQL_FOLDER); 
 
 const restAPI = GraphQL2REST.init(schema, executeFn, {
     apiPrefix: '/v1',
@@ -88,9 +90,14 @@ app.use('/api', restAPI); // restAPI is now mounted on /api/v1 in app
 app.listen(4000); // localhost on port 4000 is now listening for incoming HTTP REST requests
 
 /*
+
+Try these HTTP requests using curl: 
+
+
 $ curl -X GET http://localhost:4000/api/v1/tweets/124 -H 'content-type: application/json'
 
 { "id": "124", "body": "Default Tweet" }
+200 OK
 
 
 
