@@ -310,7 +310,7 @@ For inquiries contact author Roy Mor (roy.mor@sisense.com).
 
 ## Release History
 
-* 0.6
+* 0.6.1
     * First release as open source
 
 
