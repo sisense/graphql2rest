@@ -2,7 +2,7 @@
 > Automatically generate a RESTful API from your existing GraphQL API
 
 GraphQL2REST is a Node.js library that reads your GraphQL schema and a user-provided manifest file and automatically generates an Express router with fully RESTful HTTP routes — a full-fledged REST API.
-![](header.png)
+
 
 **![](https://lh4.googleusercontent.com/rc9GBGRl3GqVCyxfkhyFB23y-VY4D3jh6PPuD4ZJl0R-AMTsCFGINtETgxIOYdHGni7nFg0BCcHFFpL1mqCRMwUDnQRJCD67WUSijaIxColikxARNh4d3O-iv6EdOlISVGxsN9uj)**
 ## Why?
@@ -151,7 +151,7 @@ GraphQL2REST.init(
 
 <br>
 
-**`executeFn()`**  is given GraphQL arguments in Apollo Link/*fetch* style, meaning one object as argument: `{ query, variables, context, operationName }`. 
+GraphQL arguments are passed to **`executeFn()`** in Apollo Link/*fetch* style, meaning one object as argument: `{ query, variables, context, operationName }`. 
 
 **`options`** defines various settings (see [below](#configuration)). If undefined, default values will be used.
 
