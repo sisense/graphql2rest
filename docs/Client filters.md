@@ -113,9 +113,9 @@ OR
 
 ``GET api/v1/datamodels/schema?fields=:[].{oid: oid, title: title, columnOids: datasets[].schema.tables[].columns[].oid}``
 
-Note: *The name of the "fields" parameter can be changed. 
+Note: *The name of the "fields" parameter can be changed.* 
 
-As before, a filter parameter with JMESPath expression can also be passed in the body of the request.*
+As before, a filter parameter with JMESPath expression can also be passed in the body of the request.
 
 <br>
 
@@ -163,7 +163,7 @@ The client can apply the following JMESPath filter on the response:
 
 By using:
 ```
-GET /albums/?genre=jazz&limit=2&fields=[].albumName | sort(@) | { JazzAlbums: join(', ', @) }
+GET /albums/?genre=jazz&limit=2&fields=:[].albumName | sort(@) | { JazzAlbums: join(', ', @) }
 ```
 
 And the resulting API response is:
