@@ -42,7 +42,10 @@ The optional “`errors`” section in the manifest files is used to specify thi
 ```
 In the above example, INTERNAL_DB_ERROR is mapped to "500 Internal Server Error" (no added errorDescription string) and USER_UNAUTHENTICATED will result in a "401 Unauthorized" error with the string `"Forbidden: Unauthorized access"` added to the erroneous REST response.
 
-By default, a  _400 Bad Request_  HTTP status code will be returned for all client errors, and a  _500 Internal Server Error_  will be returned for errors in the server or uncaught exceptions. This default behavior also applies for Apollo error codes that have no mappings (or if the "errors" object in manifest.json is empty).
+GraphQL2REST looks for the value of the GraphQL error code in the property defined in `"graphqlErrorCodeObjPath"` field in the `options` object passed to *init()*. If it is missing or `options` is not passed, it will look for it in *(errorResponseObj)*.`errors[0].extensions.code` by default. 
+
+By default, a  _400 Bad Request_  HTTP status code will be returned for all client errors, and a  _500 Internal Server Error_  will be returned for errors in the server or uncaught exceptions. This default behavior also applies for GraphQL error codes that have no mappings (or if the "errors" object in manifest.json is empty).
+
 
 <br>
 

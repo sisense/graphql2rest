@@ -33,4 +33,8 @@ And call init() with:
 const restRouter = GraphQL2REST.init(schema, execute, options, formatError);
 ```
 
+<br>
+
+*Note*: If you change the structure of the error response you might need to edit the value of the field `"graphqlErrorCodeObjPath"` in the `options` object passed to *init()*, so as to set the new location of the `"code"` property in the object if it has changed (by default, it is set to *(errorResponse).*`errors[0].extensions.code`). This field is used to map GraphQL error codes to HTTP status codes when an erroneous response is returned. 
+
 
