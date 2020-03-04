@@ -1184,7 +1184,6 @@ describe('GraphQL2REST router tests:', () => {
 		});
 
 
-
 		describe('testing GraphQL2REST request middleware function functionality: PUT /testApp/v1/api/relationships/100/101 - middleware function should be called and modify request object passed to GraphQL:', () => {
 			let responseBody = null;
 
@@ -1214,8 +1213,8 @@ describe('GraphQL2REST router tests:', () => {
 				});
 
 				expect(params).to.deep.equal({
-					first: "Touched by GraphQL2REST middleware!",
-					second: "Touched by GraphQL2REST middleware!"
+					first: 'Touched by GraphQL2REST middleware!',
+					second: 'Touched by GraphQL2REST middleware!'
 				});
 			});
 
@@ -1231,10 +1230,8 @@ describe('GraphQL2REST router tests:', () => {
 				expect(responseBody.active).to.equal(true);
 			});
 		});
-
 	});
 });
-
 
 
 describe('GraphQL2REST router optional custom parsing functions tests:', () => {

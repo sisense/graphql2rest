@@ -1,9 +1,8 @@
-
 /* On a separate project / home folder, first run:
 
 npm i graphql express body-parser graphql2rest
 
-Make sure myManifest.json and index.js (this file) are copied to the project's folder. 
+Make sure myManifest.json and index.js (this file) are copied to the project's folder.
 
 Then:
 
