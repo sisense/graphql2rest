@@ -34,12 +34,16 @@ Middleware functions accept `(req, route, verb, operation)` and should return th
  
 Example:
 ```js
+/* middlewares.js */
+
 const someMiddlewareFunc = (req, route, verb, operation) => {
     // ... insert your logic here 
     // possibly modify req object:
-    // req.body.newParam = { obj: val } 
+    req.body.newParam = { obj: val } 
     return req;
 }
+
+module.exports = { someMiddlewareFunc };
 ```
 (The GraphQL operation will get argument `newParam` which is an object `{ obj: val }`.)
 
