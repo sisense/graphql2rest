@@ -16,6 +16,7 @@
 				"hide": ["oid", "active"]
 			}
 		},
+
 		"/api/tweets": {
 			"post": {
 				"operation": "createTweet",
@@ -55,6 +56,14 @@
 					"tweetId2": "second"
 				},
 				"wrapRequestBodyWith": "updateData.vars.relationship"
+			},
+			"put": {
+				"operation": "updateTweetRelationship",
+				"params": {
+					"tweetId1": "first",
+					"tweetId2": "second"
+				},
+				"requestMiddlewareFunction": "changeIncomingParams"
 			}
 		},
 
@@ -132,6 +141,8 @@
 			}
 		}
 	},
+
+
 	"errors": {
 		"errorCodes": {
 			"4003": {

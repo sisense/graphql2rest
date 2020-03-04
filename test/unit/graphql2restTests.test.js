@@ -148,7 +148,8 @@ describe('GraphQL2REST router tests:', () => {
 			logger: loggerMock,
 			gqlGeneratorOutputFolder: outputPath,
 			manifestFile: '../test/test-fixtures/manifests/basicManifest1.json',
-			apiPrefix: '/testApp/v1'
+			apiPrefix: '/testApp/v1',
+			middlewaresFile: '../test/test-fixtures/middleware/request-middleware.js'
 		};
 
 		before(() => {
@@ -1181,8 +1182,59 @@ describe('GraphQL2REST router tests:', () => {
 				expect(responseBody.queryStrReceived.definitions[0].variableDefinitions[1].variable.name.value).to.equal('second');
 			});
 		});
+
+
+
+		describe('testing GraphQL2REST request middleware function functionality: PUT /testApp/v1/api/relationships/100/101 - middleware function should be called and modify request object passed to GraphQL:', () => {
+			let responseBody = null;
+
+			before((done) => {
+				restRouter.runMiddleware('/testApp/v1/api/relationships/100/10', {
+					method: 'put',
+					body: {
+						url: 'http://twitter/rels/100/101/',
+						relationshipDate: '1970-1-1'
+					}
+				}, (code, body) => {
+					responseBody = body;
+					done();
+				});
+			});
+
+			test('request body and route params are changed by the middleware function:', () => {
+				expect(responseBody).to.not.equal(null);
+				expect(responseBody).to.not.equal(undefined);
+				const { body, params } = responseBody.restRequest;
+
+				expect(body).to.deep.equal({
+					message: 'Touched by GraphQL2REST middleware!',
+					verb: 'PUT',
+					route: '/testApp/v1/api/relationships/:first/:second',
+					operation: 'updateTweetRelationship'
+				});
+
+				expect(params).to.deep.equal({
+					first: "Touched by GraphQL2REST middleware!",
+					second: "Touched by GraphQL2REST middleware!"
+				});
+			});
+
+			test('path parameters are and passed as to GraphQL as expected:', () => {
+				expect(responseBody.queryStrReceived.definitions[0].variableDefinitions[0].variable.name.value).to.equal('first');
+				expect(responseBody.queryStrReceived.definitions[0].variableDefinitions[1].variable.name.value).to.equal('second');
+			});
+
+			test('response body is correct as expected', () => {
+				expect(responseBody).to.not.equal(null);
+				expect(responseBody).to.not.equal(undefined);
+				expect(responseBody.oid).to.equal('0123-45687');
+				expect(responseBody.active).to.equal(true);
+			});
+		});
+
 	});
 });
+
 
 
 describe('GraphQL2REST router optional custom parsing functions tests:', () => {
