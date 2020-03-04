@@ -39,7 +39,7 @@ Example:
 const someMiddlewareFunc = (req, route, verb, operation) => {
     // ... insert your logic here 
     // possibly modify req object:
-    req.body.newParam = { key: val } 
+    req.body.newParam = { key: val }; 
     return req;
 }
 
