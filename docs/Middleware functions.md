@@ -39,13 +39,13 @@ Example:
 const someMiddlewareFunc = (req, route, verb, operation) => {
     // ... insert your logic here 
     // possibly modify req object:
-    req.body.newParam = { obj: val } 
+    req.body.newParam = { key: val } 
     return req;
 }
 
 module.exports = { someMiddlewareFunc };
 ```
-(The GraphQL operation will get argument `newParam` which is an object `{ obj: val }`.)
+(The GraphQL operation will get argument `newParam` which is an object `{ key: val }`.)
 
 <br>
 
