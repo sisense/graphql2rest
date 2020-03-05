@@ -14,6 +14,9 @@ GraphQL2REST is a Node.js library that reads your GraphQL schema and a user-prov
 
 **GraphQL2REST allows you to fully configure and customize your REST API, which may sit on top of a very different GraphQL layer (see [*features*](#features)).**
 
+<br>
+
+
 # Table of Contents
 - [Installation](#installation)
  - [Usage](#usage)
