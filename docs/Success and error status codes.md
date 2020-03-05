@@ -1,6 +1,6 @@
 ## Successful Responses and Status Codes
 
-While GraphQL adopts a "best-effort" approach where an operation can partially succeed (or partially fail), REST is an "all or nothing" world where the request either succeeds (with a 2XX status code and some data returned, if applicable) or fails (with a 4XX or 5XX status code an an error message).
+While GraphQL adopts a "best-effort" approach where an operation can partially succeed (or partially fail), REST is an "all or nothing" world where the request either succeeds (with a 2XX status code and some data returned, if applicable) or fails (with a 4XX or 5XX status code and an error message).
 
 To bridge this gap when converting from GraphQL to REST, we define a response as "successful" **if the original GraphQL response has a non-empty "data" object, that includes at least one defined field (which is not null and not undefined).** (This GraphQL response may or may not have an "errors" array.)
 
