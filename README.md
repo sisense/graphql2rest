@@ -1,4 +1,3 @@
-
 # GraphQL2REST
 > Automatically generate a RESTful API from your existing GraphQL API
 
