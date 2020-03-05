@@ -6,15 +6,27 @@ GraphQL2REST is a Node.js library that reads your GraphQL schema and a user-prov
 
 **![](https://lh4.googleusercontent.com/rc9GBGRl3GqVCyxfkhyFB23y-VY4D3jh6PPuD4ZJl0R-AMTsCFGINtETgxIOYdHGni7nFg0BCcHFFpL1mqCRMwUDnQRJCD67WUSijaIxColikxARNh4d3O-iv6EdOlISVGxsN9uj)**
 ## Why?
-- You have an existing GraphQL API, but need to expose it as REST because that's what your API users want
+ - You have an existing GraphQL API, but need to expose it as REST because that's what your API users want
 
-- You want to develop a new GraphQL API and get REST on top of it, for free
+ - You want to develop a new GraphQL API and get REST on top of it, for free
 
-- You want to benefit from GraphQL internally while exposing REST externally as a public API
+ - You want to benefit from GraphQL internally while exposing REST externally as a public API
 
 **GraphQL2REST allows you to fully configure and customize your REST API, which may sit on top of a very different GraphQL layer (see [*features*](#features)).**
 
+<br>
 
+
+# Table of Contents
+- [Installation](#installation)
+ - [Usage](#usage)
+ - [Features](#features)
+ - [How it works](#how-graphql2rest-works)
+ - [Configuration](#configuration)
+ - [Tutorial](#tutorial)
+ - [Running tests](#running-tests)
+ - [Benefits](#benefits)
+ - [License](#license)
 
 ## Installation
 npm:
