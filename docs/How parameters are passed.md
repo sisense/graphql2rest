@@ -14,12 +14,16 @@ And this entry in the manifest file `endpoints` section:
 ```json
 "/configurations/:id": {
    "post": {
-      "makeConfiguration"
+      "operation": "makeConfiguration"
     }
  }
 ```
-The following two REST API requests will invoke this call to makeConfiguration():
- `makeConfiguration(id: 61728, count: 2, configData: ["data1", "data2"]`).  
+The following two REST API requests will invoke the same call to makeConfiguration():
+
+ `makeConfiguration(id: 61728, count: 2, configData: ["data1", "data2"])`
+
+ <br>
+   
 
 ```
 POST /configurations/61728?count=2
@@ -43,3 +47,12 @@ If you wish to enforce a strict single usage (for example, parameter `count` sho
 <br>
 
 Next: read about [mapping and renaming parameters](Mapping%20and%20renaming%20parameters.md) or jump to [the pre-processing step](Pre-processing%20step.md).
+
+
+---
+
+
+<br>
+
+[Back to [the tutorial](https://github.com/sisense/graphql2rest#tutorial)]
+ 

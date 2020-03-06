@@ -92,7 +92,7 @@ GraphQL2REST.init(
 
 `formatDataFn` is an optional function to custom format non-error GraphQL responses (data). It receives a `response` argument which is the original response from GraphQL.
 
-If not provided, default behavior is to strip the encapsulating `'data:'` property and omit the `'errors'` array from successful responses.
+If not provided, default behavior is to strip the encapsulating `'data:'` property and operation name, and omit the `'errors'` array from successful responses.
 
 `expressRouter` is an express.Router() instance to attach new routes to (if not provided, a new Express instance will be returned).
 
@@ -118,4 +118,20 @@ const expressRouter = GraphQL2REST.init(schema, execute, gql2restOptions);
 Use ``path.resolve(__dirname, <PATH>)`` for relative paths.
 
 All fields in `options` are optional, but init() will not be able to run without a valid manifest file and gqlGeneratorOutputFolder previously populated by `generateGqlQueryFiles()`.
+
+
+<br>
+
+---
+
+Learn more about:
+- [Filtering and shaping the responses on the client side](Client%20filters.md)
+- [Customizing and formatting response format](Formatting%20responses.md)
+- [Using apollo-link to work with a remote GraphQL server](Using%20remote%20GraphQL%20server.md)
+
+
+<br>
+
+[Back to [the tutorial](https://github.com/sisense/graphql2rest#tutorial)]
+ 
 

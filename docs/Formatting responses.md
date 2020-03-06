@@ -38,3 +38,14 @@ const restRouter = GraphQL2REST.init(schema, execute, options, formatError);
 *Note*: If you change the structure of the error response you might need to edit the value of the field `"graphqlErrorCodeObjPath"` in the `options` object passed to *init()*, so as to set the new location of the `"code"` property in the object if it has changed (by default, it is set to *(errorResponse).*`errors[0].extensions.code`). This field is used to map GraphQL error codes to HTTP status codes when an erroneous response is returned. 
 
 
+---
+
+
+Learn more about:
+- [Filtering and shaping the responses on the client side](Client%20filters.md)
+- [Using apollo-link to work with a remote GraphQL server](Using%20remote%20GraphQL%20server.md)
+
+<br>
+
+[Back to [the tutorial](https://github.com/sisense/graphql2rest#tutorial)]
+ 

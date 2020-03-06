@@ -150,7 +150,8 @@ We are still under `/users/:userId`, so the segment below defines PATCH /users/{
 
 Because the route parameter's name is `"userId"` but *updateUser()* GraphQL mutation  has a parameter named "id", we use the "params" property to map `"id`" on the GraphQL side to `"userId"` on the REST side. The value of the route parameter `:userId` will be copied into the value of "id" (a UUID type) in the *updateUser()* mutation.
 
-Here, *userId* is a route parameter (path param), but the "params" object can be used to rename any number and type of parameters (body, query, path) so that the REST request can be quite different from the corresponding GraphQL operation.
+Here, *userId* is a route parameter (path param), but the "params" object can be used to rename any number and type of parameters (body, query, path) so that the REST request can be quite different from the corresponding GraphQL operation. Parameters not defined for mapping inside the "params" property will still be passed to GraphQL as is.
+
 ```
 "patch": {
 	"operation": "updateUser",
@@ -177,3 +178,13 @@ The resulting manifest.json is [_here_.](manifest-example.json)
 <br>
 
 Next: read about [how parameters are passed](How%20parameters%20are%20passed.md) or jump to [the pre-processing step](Pre-processing%20step.md).
+
+
+
+---
+
+
+<br>
+
+[Back to [the tutorial](https://github.com/sisense/graphql2rest#tutorial)]
+ 

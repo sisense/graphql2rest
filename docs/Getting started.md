@@ -214,3 +214,11 @@ Read more to see how a customized REST API can be generated on top of an existin
 <br><br>
 **Next**:  read about [the manifest file](The%20manifest%20file.md) or jump to [the pre-processing step](Pre-processing%20step.md).
 
+---
+
+
+<br>
+
+[Back to [the tutorial](https://github.com/sisense/graphql2rest#tutorial)]
+ 
+

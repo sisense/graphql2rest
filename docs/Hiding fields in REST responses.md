@@ -22,3 +22,10 @@ Example:
 Next: read about [mapping to GraphQL operations using conditional logic](Mapping%20with%20conditional%20logic.md) or jump to [the pre-processing step](Pre-processing%20step.md).
 
 
+---
+
+
+<br>
+
+[Back to [the tutorial](https://github.com/sisense/graphql2rest#tutorial)]
+ 

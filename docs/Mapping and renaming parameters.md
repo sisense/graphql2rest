@@ -32,6 +32,7 @@ POST /configurations/61728?count=2
 ```
 
 The resulting GraphQL call is:
+
  `makeConfiguration(configId: 61728, confCount: 2, configData: ["data1", "data2"])`.
 
 To further customize how parameters are passed to the GraphQL operation, you can use a [request middleware function.](Middleware%20functions.md)
@@ -60,3 +61,12 @@ In this case above, if the REST request contains the parameters "`createdAt`" or
 <br>
 
 Next: read about [success and error HTTP status codes](Success%20and%20error%20status%20codes.md) or jump to [the pre-processing step](Pre-processing%20step.md).
+
+
+---
+
+
+<br>
+
+[Back to [the tutorial](https://github.com/sisense/graphql2rest#tutorial)]
+ 

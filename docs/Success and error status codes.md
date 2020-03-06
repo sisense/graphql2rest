@@ -55,3 +55,12 @@ By default, GraphQL errors are passed unchanged in the REST API, but they can be
 <br>
  
 **Next:** read about [hiding fields in REST responses](Hiding%20fields%20in%20REST%20responses.md) or jump to [the pre-processing step](Pre-processing%20step.md).
+
+
+---
+
+
+<br>
+
+[Back to [the tutorial](https://github.com/sisense/graphql2rest#tutorial)]
+ 
