@@ -20,7 +20,10 @@ And this entry in the manifest file `endpoints` section:
 ```
 The following two REST API requests will invoke the same call to makeConfiguration():
 
- `makeConfiguration(id: 61728, count: 2, configData: ["data1", "data2"]`).  
+ `makeConfiguration(id: 61728, count: 2, configData: ["data1", "data2"])`
+
+ <br>
+   
 
 ```
 POST /configurations/61728?count=2
