@@ -178,3 +178,17 @@ And the resulting API response is:
 JMESPath is a powerful language and is useful when dealing with arrays and when filtering on responses with deeply nested arrays and objects. 
 
 To learn more about the power of JMESPath and usage example, read the [JMESPath Tutorial](http://jmespath.org/tutorial.html)  and [JMESPath examples page](http://jmespath.org/examples.html).
+
+
+
+---
+
+
+Learn more about:
+- [Customizing and formatting response format](Formatting%20responses.md)
+- [Using apollo-link to work with a remote GraphQL server](Using%20remote%20GraphQL%20server.md)
+
+<br>
+
+[Back to [the tutorial](https://github.com/sisense/graphql2rest#tutorial)]
+ 

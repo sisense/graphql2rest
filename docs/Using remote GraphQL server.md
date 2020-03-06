@@ -60,3 +60,17 @@ Now the following REST API is mounted and active (based on the [manifest file de
 > DELETE /api/users/{userId}
 
 <br>
+
+
+---
+
+
+Learn more about:
+- [Filtering and shaping the responses on the client side](Client%20filters.md)
+- [Customizing and formatting response format](Formatting%20responses.md)
+
+<br>
+
+ [Back to [the tutorial](https://github.com/sisense/graphql2rest#tutorial)]
+ 
+ 

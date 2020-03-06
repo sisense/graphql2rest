@@ -41,3 +41,12 @@ After `generateGqlQueries`  is executed once, `GraphQL2REST.init()` can be invok
 <br>
 
 Next: [generating the REST API with init()](Generating%20REST%20API%20with%20init.md)
+
+
+---
+
+
+<br>
+
+[Back to [the tutorial](https://github.com/sisense/graphql2rest#tutorial)]
+ 

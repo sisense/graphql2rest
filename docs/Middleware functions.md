@@ -67,3 +67,11 @@ When **POST /users** is invoked, function "`someMiddlewareFunc`" will be execute
 
 Next: [the pre-processing step](Pre-processing%20step.md).
 
+
+---
+
+
+<br>
+
+[Back to [the tutorial](https://github.com/sisense/graphql2rest#tutorial)]
+ 

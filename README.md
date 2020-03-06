@@ -79,7 +79,7 @@ In your code:
 ```js
 import GraphQL2REST from 'graphql2rest';
 import { execute } from 'graphql'; // or any GraphQL execute function
-import { schema } from './myGraphQLSchema.js'
+import { schema } from './myGraphQLSchema.js'; 
 
 GraphQL2REST.generateGqlQueryFiles(schema, './gqlFilesFolder'); // a one time pre-processing step
 
@@ -169,7 +169,7 @@ GraphQL arguments are passed to **`executeFn()`** in Apollo Link/*fetch* style, 
 
 **`formatErrorFn`** is an optional function to custom format GraphQL error responses.
 
-**`formatDataFn`** is an optional function to custom format non-error GraphQL responses (data). If not provided, default behavior is to strip the encapsulating `'data:'` property and omit the `'errors'` array from successful responses.
+**`formatDataFn`** is an optional function to custom format non-error GraphQL responses (data). If not provided, default behavior is to strip the encapsulating `'data:'` property and the name of the GraphQL operation, and omit the `'errors'` array from successful responses.
 
 **`expressRouter`** is an express.Router() instance to attach new routes on. If not provided, a new Express instance will be returned.
 
