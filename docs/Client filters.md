@@ -63,7 +63,7 @@ And the resulting response from the REST API will be:
         "albumName": "Blue Train",
         "releaseData": {
             "labelName": "Blue Note"
-		 }
+	}
     },
     {
         "albumName": "Mingus Ah Um",
