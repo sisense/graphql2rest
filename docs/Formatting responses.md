@@ -1,12 +1,15 @@
 ## Formatting REST responses
 
-By default, non-error responses (operation completed successfully, "data" object has at least one non-null property), are formatted to look like standard REST responses. 
+By default, non-error responses (operation completed successfully, "data" object has at least one non-null property), are formatted to look like standard REST responses. That is, a flat JSON object or array, with no extra 'errors' array; if one (but not all) of the resolvers encountered an error and returned null, that field in the response will be null.
 
 Upon error (operation did not complete successfully, "data" object is undefined or has only null properties) the REST API will return an object with the original `errors` array from GraphQL.
 
+<br>
+
+
 The format of both successful responses and error responses can be modified by providing *init()* with `formatErrorFn` or `formatDataFn` functions. 
  
-Each of these function receives the response from GraphQL, and returns a modified JSON response that will be sent to the client via REST API. 
+Each of these function receives the original response from GraphQL, and returns a modified JSON response that will be sent to the client via REST API. 
 
 `formatErrorFn` also receives the HTTP status code that the REST API sends to the client. 
 
