@@ -4,7 +4,8 @@ While GraphQL adopts a "best-effort" approach where an operation can partially s
 
 To bridge this gap when converting from GraphQL to REST, we define a response as "successful" **if the original GraphQL response has a non-empty "data" object, that includes at least one defined field (which is not null and not undefined).** (This GraphQL response may or may not have an "errors" array.)
 
-By default, successful responses are formatted to look like standard REST responses (flat JSON object or array, with no extra 'errors' array), but that formatting can be modified and customized by providing your own `formatDataFn` function to `GraphQL2REST.init()`.
+By default, successful responses are formatted to look like standard REST responses (flat JSON object or array, with no extra 'errors' array); if one (but not all) of the resolvers encountered an error and returned null, that field in the response will be null). However, the format of the response can be modified and customized by providing your own `formatDataFn` function to `GraphQL2REST.init()`.
+
 
 <br>
 
