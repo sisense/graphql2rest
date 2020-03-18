@@ -1,6 +1,6 @@
 {
 	"name": "graphql2rest",
-	"version": "0.6.2",
+	"version": "0.6.3",
 	"author": "Roy Mor <roy.mor@sisense.com>",
 	"contributors": [
 		"Ray Luxembourg",
@@ -28,7 +28,6 @@
 		"test:coverage": "nyc npm run test"
 	},
 	"dependencies": {
-		"debug": "~2.6.9",
 		"del": "^5.1.0",
 		"dot-object": "^2.1.2",
 		"express": "~4.16.0",
