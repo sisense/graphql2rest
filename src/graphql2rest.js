@@ -1,6 +1,4 @@
-const path = require('path');
 const express = require('express');
-
 const formatPath = require('url-join');
 const pickDeep = require('lodash-pickdeep');
 const cloneDeep = require('lodash.clonedeep');
@@ -13,9 +11,11 @@ const mingo = require('mingo');
 const jmespath = require('jmespath');
 const gql = require('graphql-tag');
 
+const { readDefaultsConfigFile, validateConfig, loadDependencies } = require('./setup');
 const { stripResponseData, defaultFormatErrorFn } = require('./formatters');
 const { initLogger, log, debug, error } = require('./logging.js');
 const { pretty, isArrayWithEmptyObjs } = require('./common.js');
+const errorHandling = require('./errorHandling');
 const consts = require('./consts.js');
 
 const expressRouter = express.Router();
@@ -29,6 +29,7 @@ const funcs = {
 };
 let config; // global configuration object
 let errorMap; // maps GraphQL error codes to HTTP status codes
+let errHandler; // object with API error handling functions
 let middlewares; // optional user-provided .js module with middleware functions
 
 /* * * * * * * * * * * * *
@@ -114,6 +115,7 @@ const init = (
 	errorMap = manifest.errors;
 	config.queryStrings = queryStrings;
 	middlewares = middlewaresModule;
+	errHandler = errorHandling(errorMap, config);
 
 	Object.keys(legend).forEach(apipath => parseManifestEndpoints(legend[apipath], apipath, router));
 
@@ -346,24 +348,24 @@ const executeOperation = async ({ req, res, queryString, allParams, statusCode, 
 		if (response === undefined) throw new Error('Server Error: response is undefined');
 		if (typeof response !== 'object') throw new Error('Server Error: response is not an object');
 
-		if (isError(response)) {
+		if (errHandler.isError(response)) {
 			debug('GraphQL response contains error.');
-			statusCode = getErrorCode(response) || consts.CLIENT_ERROR_CODE;
+			statusCode = errHandler.getErrorCode(response) || consts.CLIENT_ERROR_CODE;
 			isErrorResponse = true;
-			response = attachCustomErrorDescription(response);
+			response = errHandler.attachCustomErrorDescription(response);
 		}
 	} catch (e) {
 		// Workaround for apollo-link which may throw legitimate client errors as exceptions
 		if (e.result && e.result.errors && Array.isArray(e.result.errors)) {
 			response = { errors: e.result.errors };
 			debug('GraphQL response contains error.');
-			statusCode = getErrorCode(response) || consts.CLIENT_ERROR_CODE;
+			statusCode = errHandler.getErrorCode(response) || consts.CLIENT_ERROR_CODE;
 			isErrorResponse = true;
-			response = attachCustomErrorDescription(response);
+			response = errHandler.attachCustomErrorDescription(response);
 		} else {
 			// GraphQL server error
 			error(e);
-			statusCode = getErrorCode(response) || consts.SERVER_ERROR_CODE;
+			statusCode = errHandler.getErrorCode(response) || consts.SERVER_ERROR_CODE;
 			if (Object.values(httpStatuses).includes(statusCode)) res.status(statusCode);
 			else res.status(consts.SERVER_ERROR_CODE);
 			res.send(consts.INTERNAL_SERVER_ERROR_FORMATTED);
@@ -421,145 +423,5 @@ const parseManifestEndpoints = (endpointObj, apipath, router) => {
 	});
 };
 
-
-/* * * * * * Error Handling * * * * * */
-
-/* Determines if the response from GraphQL is a definitive error.
-
-   A response is deemed an error response iff ONE of the following conditions is met:
-   1. errors array exists AND data object is undefined, null or empty, OR:
-   2. errors array exists AND data object exists and all keys in the data object are undefined or null */
-const isError = (response) => {
-	if (!response.data && response.errors) return true;
-	if (response.data && response.errors) {
-		let allNull = true;
-		if (Object.keys(response.data).length === 0) return true;
-		for (const key in response.data) {
-			if (response.data[key] !== null && response.data[key] !== undefined) allNull = false;
-		}
-		if (allNull) return true;
-	}
-	return false;
-};
-
-/* Returns corresponding HTTP status code based on the error map, or null if there is no mapping */
-const getErrorCode = (response) => {
-	const errorCodePath = config.graphqlErrorCodeObjPath || consts.DEFAULT_ERROR_CODE_PATH;
-	if (!response
-		|| !errorMap
-		|| !errorMap.errorCodes
-		|| Object.keys(errorMap.errorCodes).length === 0) return null;
-	const gqlErrorCode = dot.pick(errorCodePath, response);
-	if (gqlErrorCode === undefined) return null;
-	const errorFound = errorMap.errorCodes[gqlErrorCode];
-	return errorFound && errorFound.httpCode ? errorFound.httpCode : null;
-};
-
-/* Adds custom error string to the first error */
-const attachCustomErrorDescription = (response) => {
-	const errorCodePath = config.graphqlErrorCodeObjPath || consts.DEFAULT_ERROR_CODE_PATH;
-	const gqlErrorCode = dot.pick(errorCodePath, response);
-	if (response && response.errors && response.errors[0] && gqlErrorCode !== undefined) {
-		if (errorMap && errorMap.errorCodes && errorMap.errorCodes[gqlErrorCode]) {
-			const description = errorMap.errorCodes[gqlErrorCode].errorDescription;
-			if (description) {
-				response.errors[0].errorDescription = description;
-			}
-		}
-	}
-	return response;
-};
-
-
-/** **** Setup and validation phase **** **/
-
-const readDefaultsConfigFile = () => {
-	let configObj;
-	let configFileAbsPath;
-	try {
-		configFileAbsPath = (path.resolve(__dirname, consts.CONFIG_FILE));
-		configObj = require(configFileAbsPath);
-	} catch (e) {
-		error(`init: encountered error trying to read config file ${configFileAbsPath}`, e);
-		return null;
-	}
-	return configObj;
-};
-
-
-/* Loads dependency files based on config */
-const loadDependencies = (configObj) => {
-	let queryStrings;
-	let manifest;
-	let middlewaresModule;
-
-	let middlewaresFileAbsolutePath;
-	let gqlOutputAbsolutePath;
-	let manifestAbsolutePath;
-
-	try {
-		gqlOutputAbsolutePath = path.resolve(__dirname, configObj.gqlGeneratorOutputFolder);
-		queryStrings = require(configObj.gqlGeneratorOutputFolder);
-	} catch (e) {
-		error(`FATAL: Error while attempting to load index.js from gqlGeneratorOutputFolder ${configObj.gqlGeneratorOutputFolder}. Absolute path: "${gqlOutputAbsolutePath}/".
-
-		Function generateGqlQueryFiles() must be executed at least once before init() is invoked, to generate .gql query files and index from your schema. Did you run it?
-
-		If you did and you specified a custom folder name, make sure you provide the "options" parameter to init(), and that "options.gqlGeneratorOutputFolder" is set to the correct folder.\n`, e);
-	}
-
-	try {
-		manifestAbsolutePath = path.resolve(__dirname, configObj.manifestFile);
-		delete require.cache[manifestAbsolutePath];
-		manifest = require(configObj.manifestFile);
-	} catch (e) {
-		error(`FATAL: Error while attempting to load manifest file ${configObj.manifestFile}. (Absolute path: ${manifestAbsolutePath})`, e);
-	}
-
-	try {
-		if (configObj.middlewaresFile) {
-			middlewaresFileAbsolutePath = path.resolve(__dirname, configObj.middlewaresFile);
-			middlewaresModule = require(configObj.middlewaresFile);
-		}
-	} catch (e) {
-		middlewaresModule = null; // null, not undefined
-		error(`FATAL: Error while attempting to load optional middlewaresFile file ${configObj.middlewaresFile}. (Absolute path: ${middlewaresFileAbsolutePath})`, e);
-	}
-
-	return { queryStrings, manifest, middlewaresModule };
-};
-
-
-/* Validates configuration files and custom functions. Returns true if all are valid, false otherwise. */
-const validateConfig = (configOptions, funcsObj) => {
-	if (!configOptions || Object.keys(configOptions).length === 0) {
-		error('init: FATAL: configuration options are missing - please check defaults.json file or provide options object with all required fields. Aborting.');
-		return false;
-	}
-
-	if (!funcsObj || !funcsObj.executeFn || typeof funcsObj.executeFn !== 'function') {
-		error('init: FATAL: The GraphQL execution function provided, executeFn, is not a function. Aborting.');
-		return false;
-	}
-
-	if (!funcsObj || !funcsObj.formatDataFn || typeof funcsObj.formatDataFn !== 'function') {
-		error('init: FATAL: formatDataFn function provided is not a function. Aborting.');
-		return false;
-	}
-
-	if (!funcsObj || !funcsObj.formatErrorFn || typeof funcsObj.formatErrorFn !== 'function') {
-		error('init: FATAL: formatErrorFn function provided is not a function. Aborting.');
-		return false;
-	}
-
-	const requiredOptions = consts.CONFIG_REQUIRED_OPTIONS;
-	for (const option in requiredOptions) {
-		if (!configOptions[requiredOptions[option]]) {
-			error(`init: FATAL: value of required option "${requiredOptions[option]}" is missing from provided options and from defaults.json file - aborting.`);
-			return false;
-		}
-	}
-	return true;
-};
 
 module.exports = { init };
