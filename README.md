@@ -59,7 +59,7 @@ Add REST endpoints to the manifest.json file:
 	"endpoints": {
 		"/users/:userId": {
 			"get": {
-				"operation": "getUser",
+				"operation": "getUser"
 			},
 			"delete": {
 				"operation": "removeUser",
@@ -78,18 +78,22 @@ Add REST endpoints to the manifest.json file:
 In your code:
 ```js
 import GraphQL2REST from 'graphql2rest';
-import { execute } from 'graphql'; // or any GraphQL execute function
+import { execute } from 'graphql'; // or any GraphQL execute function (assumes apollo-link by default)
 import { schema } from './myGraphQLSchema.js'; 
 
-GraphQL2REST.generateGqlQueryFiles(schema, './gqlFilesFolder'); // a one time pre-processing step
+const gqlGeneratorOutputFolder = path.resolve(__dirname, './gqlFilesFolder'); 
+const manifestFile = path.resolve(__dirname, './manifest.json');
 
-const restRouter = GraphQLREST.init(schema, execute);
+GraphQL2REST.generateGqlQueryFiles(schema, gqlGeneratorOutputFolder); // a one time pre-processing step
+
+const restRouter = GraphQL2REST.init(schema, execute, { gqlGeneratorOutputFolder, manifestFile });
 
 // restRouter now has our REST API attached
 const app = express();
 app.use('/api', restRouter);
 
 ```
+(Actual route prefix, file paths etc should be set first via *options* object or in `config/defaults.json`)
 
 ### Resulting API:
 ```
@@ -133,9 +137,9 @@ First, GraphQL2REST needs to do some one-time preprocessing. It reads your Graph
 
 This is achieved by running the *generateGqlQueryFiles()* function:
 ```js
-GraphQL2REST.generateGqlQueryFiles(schema, './gqlFilesFolder');
+GraphQL2REST.generateGqlQueryFiles(schema, '/gqlFilesFolder');
 ```
-Now the ./gqlFilesFolder contains an index.js file and subfolders for queries and mutations, containing .gql files corresponding to GraphQL operations.
+Now the /gqlFilesFolder contains an index.js file and subfolders for queries and mutations, containing .gql files corresponding to GraphQL operations. Use `path.resolve(__dirname, <PATH>)` for relative paths. 
 
 *generateGqlQueryFiles()* has to be executed **just once**, or when the GraphQL schema changes  (it can be executed offline by a separate script or at "build time").
 
@@ -253,7 +257,7 @@ For GraphQL error codes that have no mappings (or if the "errors" object is miss
 
 
 ## Configuration
-Settings can be configured in the **`options`** object provided to init(). For any fields not specified in the *options* object, or if *options* is not provided to init(), values from the *defaults.json* file are used.
+Settings can be configured in the **`options`** object provided to init(). For any fields not specified in the *options* object, or if *options* is not provided to init(), values from the *config/defaults.json* file are used.
 
 ```js
 const gql2restOptions  = {
