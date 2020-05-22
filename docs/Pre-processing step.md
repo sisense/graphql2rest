@@ -38,6 +38,18 @@ Each of the folders `mutations`, `queries`, `subscriptions` contains .gql files 
 
 After `generateGqlQueries`  is executed once, `GraphQL2REST.init()` can be invoked at runtime to read the contents of ./gqlFilesFolder into memory and generate the Express router with REST API routes, according to the definitions in the manifest file.
 
+### `generateGqlQueryFiles()` options
+The pre-processing function `generateGqlQueryFiles()` accepts four parameters (2 are optional):
+
+ * **`gqlSchemaObj`** GraphQL schema object (of type GraphQLSchema)
+ * **`destinationDirPath`** path of folder where subfolders and GQL files will be created
+ * **`depthLimitArg`** (optional) recursion depth limit (default is 1000)
+ * **`optionalWinstonLogger`** (optional) instance of winston logger to log to
+ 
+**Specify a smaller `depthLimitArg` value to limit the recursion depth when dealing with a GraphQL schema with circular references, or when the GraphQL API has a small query depth limit (otherwise, fully exploded client queries might fail because they will exceed the allowed depth.)** 
+ 
+ The function returns `true` if successful, `false` otherwise.
+
 <br>
 
 Next: [generating the REST API with init()](Generating%20REST%20API%20with%20init.md)
