@@ -43,7 +43,7 @@ The pre-processing function `generateGqlQueryFiles()` accepts four parameters (2
 
  * **`gqlSchemaObj`** GraphQL schema object (of type GraphQLSchema)
  * **`destinationDirPath`** path of folder where subfolders and GQL files will be created
- * **`depthLimitArg`** (optional) recursion depth limit (default is 1000)
+ * **`depthLimitArg`** (optional) recursion depth limit (default is 100)
  * **`optionalWinstonLogger`** (optional) instance of winston logger to log to
  
 **Specify a smaller `depthLimitArg` value to limit the recursion depth when dealing with a GraphQL schema with circular references, or when the GraphQL API has a small query depth limit (otherwise, fully exploded client queries might fail because they will exceed the allowed depth.)** 

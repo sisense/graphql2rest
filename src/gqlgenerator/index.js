@@ -21,11 +21,11 @@ let depthLimit;
  * Main entry point for scripts. Generates GQL files with fully exploded GraphQL queries basd on gqlSchemaObj.
  * @param gqlSchemaObj GraphQL schema object (of type GraphQLSchema)
  * @param destinationDirPath Path of folder where subfolders and GQL files will be created
- * @param [depthLimitArg] Optional recursion depth limit (default is 1000)
+ * @param [depthLimitArg] Optional recursion depth limit (default is 100)
  * @param [optionalWinstonLogger] Optional instance of winston logger to log to
  * @return {boolean} true if successful, false otherwise
  */
-const generateGqlQueryFiles = (gqlSchemaObj, destinationDirPath, depthLimitArg = 1000, optionalWinstonLogger = null) => {
+const generateGqlQueryFiles = (gqlSchemaObj, destinationDirPath, depthLimitArg = 100, optionalWinstonLogger = null) => {
 	initLogger(optionalWinstonLogger);
 	log('GQLGenerator initializing...');
 	let success;

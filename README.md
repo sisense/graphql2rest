@@ -276,7 +276,7 @@ Use ``path.resolve(__dirname, <PATH>)`` for relative paths.
 
 All fields in `options` are optional, but init() will not be able to run without a valid manifest file and gqlGeneratorOutputFolder previously populated by `generateGqlQueryFiles()`.
 
-The **depth limit** of generated client queries [can be set in the pre-processing step](docs/Pre-processing%20step.md#generategqlqueryfiles-options) - useful when the schema has circular references or the GraphQL server has a strict query depth limit. 
+The **depth limit** of generated client queries [can be set in the pre-processing step](docs/Pre-processing%20step.md#generategqlqueryfiles-options). This might be needed for very large schemas, when the schema has circular references or the GraphQL server has a strict query depth limit. 
 
 
 
