@@ -1,6 +1,10 @@
 # GraphQL2REST
 > Automatically generate a RESTful API from your existing GraphQL API
 
+[
+![Sisense-open-source](https://img.shields.io/badge/Sisense-open%20source-yellow)](https://www.sisense.com)   [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)  [![npm-image]](https://npmjs.com/package/graphql2rest)  [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fsisense%2Fgraphql2rest&via=RoyMorTech&via=%20@Sisense&text=✨GraphQL2REST%20•%20Automatically%20generate%20a%20RESTful%20API%20from%20your%20existing%20GraphQL%20API%20%28GraphQL%3F%20REST%20API%3F%20Why%20not%20have%20BOTH%3F%29%20&hashtags=graphql2rest%2CGraphQL%2CAPI)
+
+
 GraphQL2REST is a Node.js library that reads your GraphQL schema and a user-provided manifest file and automatically generates an Express router with fully RESTful HTTP routes — a full-fledged REST API.
 
 
