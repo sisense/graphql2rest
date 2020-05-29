@@ -4,7 +4,7 @@ const defaultFormatErrorFn = errorString => errorString;
 /* Default data formatting function, when the response is not deemed an erroneous response. In such case errors also are omitted,
    as they are considered "warnings only" (since there is nonempty data). */
 const stripResponseData = (response) => {
-	if (!response || !response.data || response.data === {}) return {};
+	if (!response || !response.data) return {};
 	const keys = Object.keys(response.data);
 	if (keys.length === 0) return {};
 	if (keys.length === 1) {
