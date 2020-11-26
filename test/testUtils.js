@@ -1,6 +1,5 @@
 const del = require('del');
 
-const schemaFile = require('./test-fixtures/schemas/basic-graphql-schema-1');
 const GraphQL2REST = require('./../src/index');
 
 const {
@@ -10,15 +9,15 @@ const {
 } = require('./mocks/logger');
 
 
-const clearEnv = (gqlOutputFolder) => {
+const clearEnv = (gqlOutputFolders) => {
 	clearLastConsolePrint();
 	clearBuffer();
-	del.sync(gqlOutputFolder);
+	(gqlOutputFolders || []).forEach(folder => del.sync(folder));
 	loggerMock.supressDebugLevel = false;
 }
 
 const prepareEnv = (schema, gqlOutputFolder) => {
-	clearEnv(gqlOutputFolder);
+	clearEnv([gqlOutputFolder]);
 	GraphQL2REST.generateGqlQueryFiles(schema,
 		gqlOutputFolder, undefined, loggerMock);
 }
