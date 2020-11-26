@@ -22,7 +22,7 @@ const { clearEnv, getOptions } = require('../testUtils')
 chai.use(chaifs);
 
 const prepareEnv = (schema, restRouter) => {
-	clearEnv(GQL_OUTPUT_FOLDER);
+	clearEnv([GQL_OUTPUT_FOLDER]);
 	rmwareHttpMock(restRouter);
 }
 
@@ -39,13 +39,14 @@ describe('GraphQL2REST router - forwards requests to underlying GraphQL layer an
 	after(() => {
 		responseBody = null;
 		statusCode = 0;
-		clearEnv(GQL_OUTPUT_FOLDER);
+		clearEnv([GQL_OUTPUT_FOLDER]);
 	});
 
 	describe('GET', () => {
 		describe('/testApp/v1/api/tweets/10 - successful GET call without body: ', () => {
 
 			before((done) => {
+				loggerMock.supressDebugLevel = true;
 				clearBuffer();
 				restRouter.runMiddleware('/testApp/v1/api/tweets/10', {
 					method: 'get'
