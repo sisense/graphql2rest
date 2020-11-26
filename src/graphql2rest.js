@@ -10,7 +10,7 @@ const dot = require('dot-object');
 const mingo = require('mingo');
 const jmespath = require('jmespath');
 const gql = require('graphql-tag');
-const  {GraphQLSchema} = require('graphql');
+const { GraphQLSchema } = require('graphql');
 
 const { readDefaultsConfigFile, validateConfig, loadDependencies } = require('./setup');
 const { stripResponseData, defaultFormatErrorFn } = require('./formatters');
