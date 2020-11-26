@@ -4,16 +4,13 @@ const chai = require('chai');
 const chaifs = require('chai-fs');
 const { expect } = chai;
 const {	buildSchema } = require('graphql');
-const del = require('del');
 
 const schemaFile = require('../test-fixtures/schemas/basic-graphql-schema-1');
 const schemaFileAdvanced = require('../test-fixtures/schemas/advanced-graphql-schema');
 const GraphQL2REST = require('../../src/index');
-const {
-	loggerMock,
-	clearBuffer,
-	clearLastConsolePrint,
-} = require('../mocks/logger');
+const { loggerMock } = require('../mocks/logger');
+
+const { clearEnv } = require('../testUtils');
 const GQL_OUTPUT_FOLDER = path.resolve(__dirname, '../test-outputs/gqloutput');
 const GQL_OUTPUT_FOLDER_ADVANCED_TESTS = path.resolve(__dirname, '../test-outputs/gqloutput_advanced');
 
@@ -93,7 +90,7 @@ describe('generateGqlQueryFiles:', () => {
 	describe('generate gql query files', () => {
 		before(() => prepareEnv(schema));
 
-		after(() => clearEnv(GQL_OUTPUT_FOLDER));
+		after(() => clearEnv([GQL_OUTPUT_FOLDER, GQL_OUTPUT_FOLDER_ADVANCED_TESTS]));
 
 		test('should generate successfully', () => {
 			const result = GraphQL2REST.generateGqlQueryFiles(schema, GQL_OUTPUT_FOLDER, undefined, loggerMock);
@@ -133,17 +130,9 @@ describe('generateGqlQueryFiles:', () => {
 });
 
 const prepareEnv = (schema) => {
-	clearEnv();
+	clearEnv([GQL_OUTPUT_FOLDER, GQL_OUTPUT_FOLDER_ADVANCED_TESTS]);
 	GraphQL2REST.generateGqlQueryFiles(schema,
 		GQL_OUTPUT_FOLDER, undefined, loggerMock);
-}
-
-const clearEnv = () => {
-	del.sync(GQL_OUTPUT_FOLDER);
-	del.sync(GQL_OUTPUT_FOLDER_ADVANCED_TESTS);
-	clearLastConsolePrint();
-	clearBuffer();
-	loggerMock.supressDebugLevel = false;
 }
 
 
