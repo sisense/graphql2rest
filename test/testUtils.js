@@ -31,7 +31,7 @@ const getOptions = (gqlOutputFolder) => ({
 	middlewaresFile: '../test/test-fixtures/middleware/request-middleware.js'
 });
 
-const noop = () =>{};
+const noop = () => {};
 
 module.exports = { noop, prepareEnv, clearEnv, getOptions };
 
