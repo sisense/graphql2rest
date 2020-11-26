@@ -32,7 +32,7 @@ describe('init router:', () => {
 
 	before(() => prepareEnv(schema, GQL_OUTPUT_FOLDER));
 
-	after(() => clearEnv(GQL_OUTPUT_FOLDER));
+	after(() => clearEnv([GQL_OUTPUT_FOLDER]));
 
 	describe('success create router', () => {
 		let restRouter;

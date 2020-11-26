@@ -20,7 +20,7 @@ chai.use(chaifs);
 describe('log messages:', () => {
 	const schema = buildSchema(schemaFile.schema);
 
-	after(() => clearEnv(GQL_OUTPUT_FOLDER));
+	after(() => clearEnv([GQL_OUTPUT_FOLDER]));
 
 	describe('generateGqlQueryFiles', () => {
 		describe('log errors', () => {
@@ -58,7 +58,7 @@ describe('log messages:', () => {
 
 		describe('log errors', () => {
 			before(() => {
-				clearEnv(GQL_OUTPUT_FOLDER);
+				clearEnv([GQL_OUTPUT_FOLDER]);
 				GraphQL2REST.generateGqlQueryFiles(schema, GQL_OUTPUT_FOLDER, 100, loggerMock);
 			});
 
