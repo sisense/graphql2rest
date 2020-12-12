@@ -6,6 +6,7 @@ const omit = require('lodash.omit');
 const httpStatuses = require('http-status-codes');
 const objectPath = require('object-path');
 const dot = require('dot-object');
+const gqlGeneratorNode =  require("gql-generator-node");
 
 const mingo = require('mingo');
 const jmespath = require('jmespath');
@@ -83,7 +84,7 @@ const init = (
 
 	config = {
 		...configFileObj,
-		...options
+		...options,
 	}; // options override configFileObj defaults, should always come last
 
 	// populate global custom functions object
@@ -114,6 +115,7 @@ const init = (
 	const legend = manifest.endpoints;
 	errorMap = manifest.errors;
 	config.queryStrings = queryStrings;
+	config.schema = schemaObj
 	middlewares = middlewaresModule;
 	errHandler = errorHandling(errorMap, config);
 
@@ -324,6 +326,23 @@ const addRestEndpoint = ({ action, router }) => {
 	}
 };
 
+
+const setPath = (object, path, value) => {
+	path
+   .split('.')
+   .reduce((o,p,i) => o[p] = path.split('.').length === ++i ? value : o[p] || {}, object)
+  }
+
+
+const generateFieldListObject = (fieldList, fieldParam, hiddenFields) => {
+	const value = !hiddenFields || hiddenFields.indexOf(fieldParam) === -1;
+	if (fieldParam.indexOf('.') > -1) {
+		setPath(fieldList, fieldParam, value)
+	} else {
+		fieldList[fieldParam] = value
+	}
+};
+
 /* Operation invoker, called by Express callback function created by addRestEndpoint() */
 const executeOperation = async ({ req, res, queryString, allParams, statusCode, hiddenFields, operationName }) => {
 	let response;
@@ -331,9 +350,21 @@ const executeOperation = async ({ req, res, queryString, allParams, statusCode, 
 	debug(`Executing "${queryString.substring(0, 100).replace(/(\r\n|\n|\r)/gm, '')}..." with parameters:`);
 	debug(pretty(allParams));
 
+	const fieldList = {}
+	allParams.fields ? allParams.fields.split(",").forEach(x => generateFieldListObject(fieldList, x.trim(), hiddenFields)) : {}
+
+	const query = gqlGeneratorNode.generateQuery({
+    field: config.schema
+        .getQueryType()
+        .getFields()[operationName],
+	    skeleton: fieldList
+	})
+
+
+	Object.keys(allParams).forEach(ap => allParams[ap] === "true" ? allParams[ap] = true : allParams[ap] === "false" ? allParams[ap] = false : ap)
 	try {
 		response = await funcs.executeFn({
-			query: gql(queryString),
+			query: gql(query),
 			variables: allParams,
 			context: {
 				headers: req.headers,
