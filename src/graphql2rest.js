@@ -326,6 +326,23 @@ const addRestEndpoint = ({ action, router }) => {
 	}
 };
 
+
+const setPath = (object, path, value) => {
+	path
+   .split('.')
+   .reduce((o,p,i) => o[p] = path.split('.').length === ++i ? value : o[p] || {}, object)
+  }
+
+
+const generateFieldListObject = (fieldList, fieldParam, hiddenFields) => {
+	const value = !hiddenFields || hiddenFields.indexOf(fieldParam) === -1;
+	if (fieldParam.indexOf('.') > -1) {
+		setPath(fieldList, fieldParam, value)
+	} else {
+		fieldList[fieldParam] = value
+	}
+};
+
 /* Operation invoker, called by Express callback function created by addRestEndpoint() */
 const executeOperation = async ({ req, res, queryString, allParams, statusCode, hiddenFields, operationName }) => {
 	let response;
@@ -334,7 +351,7 @@ const executeOperation = async ({ req, res, queryString, allParams, statusCode, 
 	debug(pretty(allParams));
 
 	const fieldList = {}
-	allParams.fields ? allParams.fields.split(",").forEach(x => fieldList[x] = !hiddenFields || hiddenFields.indexOf(x) === -1 ) : {}
+	allParams.fields ? allParams.fields.split(",").forEach(x => generateFieldListObject(fieldList, x.trim(), hiddenFields)) : {}
 
 	const query = gqlGeneratorNode.generateQuery({
     field: config.schema
