@@ -4,7 +4,8 @@
 	"author": "Roy Mor <roy.mor@sisense.com>",
 	"contributors": [
 		"Ray Luxembourg",
-		"Yotam Roth"
+		"Yotam Roth",
+		"Sergei Magera"
 	],
 	"license": "MIT",
 	"description": "GraphQL to REST converter: automatically generate a RESTful API from your existing GraphQL API",

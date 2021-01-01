@@ -45,6 +45,12 @@ const generateGqlQueryFiles = (gqlSchemaObj, destinationDirPath, depthLimitArg =
 		return false;
 	}
 
+	if(!Number.isInteger(depthLimit) || Math.sign(depthLimit) === -1){
+		error('Invalid depthLimitArg parameter. Aborting');
+
+		return false;
+	}
+
 	log(`GQLGenerator initialized with query depthLimit of ${depthLimit}`);
 	try {
 		cleanAndCreateFolder(destDirPath);
