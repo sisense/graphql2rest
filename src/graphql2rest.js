@@ -386,7 +386,7 @@ const executeOperation = async ({ req, res, queryString, allParams, statusCode, 
 		response = funcs.formatErrorFn(response, statusCode);
 	}
 	debug(`Returning HTTP status code ${statusCode}`);
-	res.send(response);
+	res.json(response);
 };
 
 
