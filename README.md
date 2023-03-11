@@ -328,13 +328,14 @@ npm run test:coverage
  - The pre-processing step of this library is  based on [timqian/gql-generator](https://www.npmjs.com/package/gql-generator).
 
 ## Contact
-For inquiries contact author Roy Mor (roy.mor@sisense.com).
+For inquiries contact author Roy Mor (roy.mor.email at gmail.com).
 
 ## Release History
 
 * 0.6.1
     * First release as open source
-
+* 1.0.0  
+    * First major release
 
 
 ## Contributing

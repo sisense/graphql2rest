@@ -4,7 +4,7 @@
       "ecmaVersion": 2018
   },
   "env": {
-    "es6": true,
+  "es6": true,
 	"node": true,
 	"mocha": true
   },
@@ -17,7 +17,7 @@
     "comma-dangle": [1, "only-multiline"],
     "constructor-super": 2,
     "import/no-dynamic-require": "off",
-    "indent": [2, "tab", { "SwitchCase": 1 }],
+    "indent": [4, "tab", { "SwitchCase": 1 }],
     "linebreak-style": [0, "unix"],
     "no-class-assign": 2,
     "no-confusing-arrow": 2,
