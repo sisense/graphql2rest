@@ -8,7 +8,6 @@
 GraphQL2REST is a Node.js library that reads your GraphQL schema and a user-provided manifest file and automatically generates an Express router with fully RESTful HTTP routes — a full-fledged REST API.
 
 Author: [Roy Mor](https://www.linkedin.com/in/roy-mor/)
-
 **![](https://lh4.googleusercontent.com/rc9GBGRl3GqVCyxfkhyFB23y-VY4D3jh6PPuD4ZJl0R-AMTsCFGINtETgxIOYdHGni7nFg0BCcHFFpL1mqCRMwUDnQRJCD67WUSijaIxColikxARNh4d3O-iv6EdOlISVGxsN9uj)**
 ## Why?
  - You have an existing GraphQL API, but need to expose it as REST because that's what your API users want
@@ -335,7 +334,7 @@ For inquiries contact author Roy Mor (roy.mor.email at gmail.com).
 
 * 0.6.1
     * First release as open source
-* 1.0.0  
+* 1.0.1  
     * First major release
 
 
