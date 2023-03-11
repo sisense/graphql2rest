@@ -10,7 +10,6 @@ const dot = require('dot-object');
 const mingo = require('mingo');
 const jmespath = require('jmespath');
 const gql = require('graphql-tag');
-const { GraphQLSchema } = require('graphql');
 
 const { readDefaultsConfigFile, validateConfig, loadDependencies } = require('./setup');
 const { stripResponseData, defaultFormatErrorFn } = require('./formatters');
@@ -97,7 +96,7 @@ const init = (
 	const { manifest, queryStrings, middlewaresModule } = loadDependencies(config);
 	if (!manifest || !queryStrings) return null;
 
-	if (!(schemaObj instanceof GraphQLSchema)) {
+	if (!schemaObj) {
 		error('init: schema object is required but missing. Aborting initialization.');
 		return null;
 	}
