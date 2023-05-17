@@ -377,7 +377,7 @@ const executeOperation = async ({ req, res, queryString, allParams, statusCode, 
 	if (!Object.values(httpStatuses).includes(statusCode)) statusCode = consts.SUCCESS_STATUS_CODE;
 	res.status(statusCode);
 	if (!isErrorResponse) {
-		response = funcs.formatDataFn(response);
+		response = funcs.formatDataFn(response, operationName);
 		response = hideFields(response, hiddenFields);
 		response = filterResponse(response, req, config.filterFieldName);
 	} else {
